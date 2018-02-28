@@ -1,0 +1,16 @@
+{
+  "name": "swagger-names",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "d3-scale": "^2.0.0",
+    "docker-names": "^1.0.3",
+    "xxhashjs": "^0.2.2"
+  }
+}
