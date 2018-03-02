@@ -1,21 +1,18 @@
 const d3Scale = require('d3-scale')
 const xxhash = require('xxhashjs')
-const debug = require('debug')('swagger-names')
+const debug = require('util').debuglog('swagger-names')
 
 // const famousPeople = require('./famous-people')
 const animalNames = require('./animal-names')
 const adjectives = require('./adjectives')
 const MAX_UINT32 = 4294967295 // 2^32 - // 1
-const V1 = 100 // Version 1 Seed
-
 const lefts = adjectives
 const rights = animalNames
-
 const leftLength = lefts.length
 const rightLength = rights.length
-
 const useLeft = leftLength >= rightLength
 const biggerLength = useLeft ? leftLength : rightLength
+const SEED = xxhash.h32(process.env.SEED || 100, 0)
 
 module.exports = getName
 
@@ -40,7 +37,6 @@ debug("MAX_PAIR", MAX_PAIR)
 debug("leftLength", leftLength)
 debug("rightLength", rightLength)
 
-
 // Map our hash to a pair
 const maxU32ToPairFloat = d3Scale.scaleLinear()
       .domain([0, MAX_UINT32])
@@ -52,7 +48,7 @@ const maxU32ToPair = (u32) => Math.floor(maxU32ToPairFloat(u32))
   Ie: same input string, same names
 */
 function getName(str) {
-  var hashInt = xxhash.h32(str, V1).toNumber()
+  var hashInt = xxhash.h32(str, SEED).toNumber()
   var pairInt = maxU32ToPair(hashInt)
   var pair = unpairFn(pairInt)
 
